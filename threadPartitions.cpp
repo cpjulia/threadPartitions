@@ -133,8 +133,10 @@ public:
       std::cout << " - [" << p.first << " - " << p.second
                 << "]: size: " << counts[j++] << std::endl;
     }
+    uint64_t diff = _docIds.size() - docsInPartitions;
+    assert(diff == 0);
     std::cout << "size " << _docIds.size() << '\n';
-    std::cout << "diff " << _docIds.size() - docsInPartitions << '\n';
+    std::cout << "diff " << diff << '\n';
 
     std::cout << "stddev: " << stddev(counts) << std::endl;
   }
