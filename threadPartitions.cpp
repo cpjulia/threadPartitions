@@ -302,14 +302,12 @@ private:
 };
 
 int main() {
-  std::cout << "Partition generator for thread load balancing. Restriction: "
-               "budget < [num of doc ids]/2"
-            << std::endl;
+  std::cout << "Partition generator for thread load balancing " << std::endl;
   RandContext randContext;
-  uint64_t numDocs = 300;
+  uint64_t numDocs = 3000000;
   std::set<uint64_t> docs = randContext.generateRandSet(numDocs);
   // std::set<uint64_t> docs = randContext.generateDocIdsFromInputFile();
-  for (uint8_t i = 5; i < 12; ++i) {
+  for (uint8_t i = 5; i < 15; ++i) {
     PartitionGenerator partitionGen(std::pow(2, i) - 1, docs);
     std::vector<std::pair<uint64_t, uint64_t>> partitions =
         partitionGen.partitionDocIdsForThreads(5);
