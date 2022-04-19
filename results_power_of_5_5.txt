@@ -1,0 +1,132 @@
+Generating partitions for 300 documents, 5 threads, budget = 1
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 473348772839): size: 217
+ - [473348772840 - 946697545679): size: 32
+ - [946697545680 - 1443071555819): size: 22
+ - [1443071555820 - 1916420328659): size: 16
+ - [1916420328660 - 2389769101499): size: 13
+size 300
+diff 0
+stddev: 78.768
+Generating partitions for 300 documents, 5 threads, budget = 3
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 464347748891): size: 216
+ - [464347748892 - 941855230313): size: 33
+ - [941855230314 - 1429228216505): size: 21
+ - [1429228216506 - 1925421352607): size: 17
+ - [1925421352608 - 2389769101499): size: 13
+size 300
+diff 0
+stddev: 78.2867
+Generating partitions for 300 documents, 5 threads, budget = 7
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 453944562797): size: 215
+ - [453944562798 - 931756898195): size: 33
+ - [931756898196 - 1401272072513): size: 21
+ - [1401272072514 - 1907177535701): size: 17
+ - [1907177535702 - 2389769101499): size: 14
+size 300
+diff 0
+stddev: 77.7689
+Generating partitions for 300 documents, 5 threads, budget = 15
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 422557897649): size: 212
+ - [422557897650 - 872626476509): size: 33
+ - [872626476510 - 1370561503739): size: 23
+ - [1370561503740 - 1870504837139): size: 17
+ - [1870504837140 - 2389769101499): size: 15
+size 300
+diff 0
+stddev: 76.2575
+Generating partitions for 300 documents, 5 threads, budget = 31
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 359525233019): size: 205
+ - [359525233020 - 773371629269): size: 34
+ - [773371629270 - 1233131828819): size: 23
+ - [1233131828820 - 1765368791729): size: 20
+ - [1765368791730 - 2389769101499): size: 18
+size 300
+diff 0
+stddev: 72.7104
+Generating partitions for 300 documents, 5 threads, budget = 63
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 213015111275): size: 185
+ - [213015111276 - 467002537721): size: 31
+ - [467002537722 - 771348942377): size: 23
+ - [771348942378 - 1159336384643): size: 20
+ - [1159336384644 - 2389769101499): size: 41
+size 300
+diff 0
+stddev: 62.9222
+Generating partitions for 300 documents, 5 threads, budget = 127
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 56798282237): size: 142
+ - [56798282238 - 130320753815): size: 26
+ - [130320753816 - 242462972033): size: 22
+ - [242462972034 - 570729818861): size: 35
+ - [570729818862 - 2389769101499): size: 75
+size 300
+diff 0
+stddev: 45.1088
+Generating partitions for 300 documents, 5 threads, budget = 255
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 59774345): size: 36
+ - [59774346 - 132020801): size: 7
+ - [132020802 - 198827627): size: 3
+ - [198827628 - 298779983): size: 4
+ - [298779984 - 2389769101499): size: 250
+size 300
+diff 0
+stddev: 95.781
+Generating partitions for 300 documents, 5 threads, budget = 511
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 714924299): size: 60
+ - [777600000 - 23863536599): size: 60
+ - [24883200000 - 183765996899): size: 60
+ - [188956800000 - 779811265199): size: 60
+ - [796262400000 - 2389769101499): size: 60
+size 300
+diff 0
+stddev: 0
+Generating partitions for 300 documents, 5 threads, budget = 1023
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 714924299): size: 60
+ - [777600000 - 23863536599): size: 60
+ - [24883200000 - 183765996899): size: 60
+ - [188956800000 - 779811265199): size: 60
+ - [796262400000 - 2389769101499): size: 60
+size 300
+diff 0
+stddev: 0
+Generating partitions for 300 documents, 5 threads, budget = 2047
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 714924299): size: 60
+ - [777600000 - 23863536599): size: 60
+ - [24883200000 - 183765996899): size: 60
+ - [188956800000 - 779811265199): size: 60
+ - [796262400000 - 2389769101499): size: 60
+size 300
+diff 0
+stddev: 0
+step 4.77954e+11 477953820300Results for approach 2:
+result (5 partition(s)):
+ - [0 - 477953820300): size: 217
+ - [477953820300 - 955907640600): size: 32
+ - [955907640600 - 1433861460900): size: 21
+ - [1433861460900 - 1911815281200): size: 16
+ - [1911815281200 - 2389769101499): size: 14
+size 300
+diff 0
+stddev: 78.7477
+

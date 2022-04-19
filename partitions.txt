@@ -1,0 +1,4 @@
+For sparse and uniform distributions, the algorithm performed ok, <amount to compara here> better than naive solution.
+For sparse and non uniform distributions, it depends on the structure of the distribution. In general, a distribution that is continuous in segments (e.g. has gaps in between continous chunks of ids) works very well, especially when the number of gaps is approximately equal to the budget. 
+If the distribution is completely non continuous, almost discrete, it tends to approximate the naive distribution.  
+

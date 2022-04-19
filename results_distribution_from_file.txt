@@ -1,0 +1,132 @@
+Generating partitions for 309182 documents, 5 threads, budget = 1
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 11321763): size: 172008
+ - [11321764 - 110054745): size: 97869
+ - [110054746 - 121376509): size: 19621
+ - [121376510 - 132698273): size: 0
+ - [132698274 - 144020038): size: 19684
+size 309182
+diff 0
+stddev: 64527.3
+Generating partitions for 309182 documents, 5 threads, budget = 3
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 4597959): size: 113424
+ - [4597960 - 9856629): size: 58584
+ - [9856630 - 101865807): size: 58653
+ - [101865808 - 106463767): size: 39216
+ - [106463768 - 144020038): size: 39305
+size 309182
+diff 0
+stddev: 27207.9
+Generating partitions for 309182 documents, 5 threads, budget = 7
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 4756874): size: 113424
+ - [4756875 - 7748670): size: 39077
+ - [7748671 - 100445873): size: 78160
+ - [100445874 - 102776959): size: 19582
+ - [102776960 - 144020038): size: 58939
+size 309182
+diff 0
+stddev: 32371.5
+Generating partitions for 309182 documents, 5 threads, budget = 15
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 9005605): size: 167694
+ - [9005606 - 100440331): size: 62967
+ - [100440332 - 101009606): size: 0
+ - [101009607 - 101578881): size: 0
+ - [101578882 - 144020038): size: 78521
+size 309182
+diff 0
+stddev: 61859.5
+Generating partitions for 309182 documents, 5 threads, budget = 31
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 324143): size: 54498
+ - [324144 - 6113728): size: 60394
+ - [6113729 - 11999949): size: 66917
+ - [11999950 - 102005737): size: 64267
+ - [102005738 - 144020038): size: 63106
+size 309182
+diff 0
+stddev: 4225.28
+Generating partitions for 309182 documents, 5 threads, budget = 63
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 346638): size: 65290
+ - [346639 - 6130128): size: 64620
+ - [6130129 - 12010291): size: 60742
+ - [12010292 - 102009986): size: 58497
+ - [102009987 - 144020038): size: 60033
+size 309182
+diff 0
+stddev: 2656.21
+Generating partitions for 309182 documents, 5 threads, budget = 127
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 345322): size: 63982
+ - [345323 - 6128052): size: 64072
+ - [6128053 - 12008354): size: 61524
+ - [12008355 - 102007134): size: 57712
+ - [102007135 - 144020038): size: 61892
+size 309182
+diff 0
+stddev: 2311.4
+Generating partitions for 309182 documents, 5 threads, budget = 255
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 340945): size: 59679
+ - [340946 - 6124207): size: 64640
+ - [6124208 - 12007025): size: 64226
+ - [12007026 - 102004281): size: 56165
+ - [102004282 - 144020038): size: 64472
+size 309182
+diff 0
+stddev: 3386.32
+Generating partitions for 309182 documents, 5 threads, budget = 511
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 336604): size: 56111
+ - [336605 - 6119060): size: 63144
+ - [6119061 - 12000999): size: 63592
+ - [12001000 - 102006199): size: 63650
+ - [102006200 - 144020038): size: 62685
+size 309182
+diff 0
+stddev: 2883.8
+Generating partitions for 309182 documents, 5 threads, budget = 1023
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 340733): size: 59475
+ - [340734 - 6123116): size: 63761
+ - [6123117 - 12005931): size: 64351
+ - [12005932 - 102008696): size: 60847
+ - [102008697 - 144020038): size: 60748
+size 309182
+diff 0
+stddev: 1885.05
+Generating partitions for 309182 documents, 5 threads, budget = 2047
+Results for approach 1:
+result (5 partition(s)):
+ - [0 - 339981): size: 58789
+ - [339982 - 6123657): size: 64983
+ - [6123658 - 12006206): size: 64064
+ - [12006207 - 102007969): size: 60099
+ - [102007970 - 144020038): size: 61247
+size 309182
+diff 0
+stddev: 2345.89
+step 2.8804e+07 28804007Results for approach 2:
+result (5 partition(s)):
+ - [0 - 28804007): size: 211164
+ - [28804007 - 57608015): size: 0
+ - [57608015 - 86412023): size: 0
+ - [86412023 - 115216031): size: 78334
+ - [115216031 - 144020038): size: 19684
+size 309182
+diff 0
+stddev: 79994
+

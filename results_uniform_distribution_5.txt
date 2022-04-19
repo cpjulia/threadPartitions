@@ -1,0 +1,132 @@
+Generating partitions for 30000000 documents, 5 threads, budget = 1
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858993484): size: 5996523
+ - [858993485 - 1717986848): size: 6002611
+ - [1717986849 - 2576980550): size: 5997952
+ - [2576980551 - 3435973914): size: 5999252
+ - [3435973915 - 4294967282): size: 6003662
+size 30000000
+diff 0
+stddev: 2722.9
+Generating partitions for 30000000 documents, 5 threads, budget = 3
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858993247): size: 5996523
+ - [858993248 - 1717987515): size: 6002615
+ - [1717987516 - 2576980980): size: 5997950
+ - [2576980981 - 3435974155): size: 5999251
+ - [3435974156 - 4294967282): size: 6003661
+size 30000000
+diff 0
+stddev: 2723.75
+Generating partitions for 30000000 documents, 5 threads, budget = 7
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858993594): size: 5996524
+ - [858993595 - 1717987703): size: 6002615
+ - [1717987704 - 2576980918): size: 5997949
+ - [2576980919 - 3435973953): size: 5999250
+ - [3435973954 - 4294967282): size: 6003662
+size 30000000
+diff 0
+stddev: 2723.97
+Generating partitions for 30000000 documents, 5 threads, budget = 15
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858994029): size: 5996527
+ - [858994030 - 1717987861): size: 6002613
+ - [1717987862 - 2576981269): size: 5997949
+ - [2576981270 - 3435973881): size: 5999249
+ - [3435973882 - 4294967282): size: 6003662
+size 30000000
+diff 0
+stddev: 2722.88
+Generating partitions for 30000000 documents, 5 threads, budget = 31
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858993878): size: 5996527
+ - [858993879 - 1717987665): size: 6002612
+ - [1717987666 - 2576981171): size: 5997950
+ - [2576981172 - 3435973543): size: 5999247
+ - [3435973544 - 4294967282): size: 6003664
+size 30000000
+diff 0
+stddev: 2723.18
+Generating partitions for 30000000 documents, 5 threads, budget = 63
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858993953): size: 5996527
+ - [858993954 - 1717987730): size: 6002612
+ - [1717987731 - 2576981472): size: 5997952
+ - [2576981473 - 3435973330): size: 5999245
+ - [3435973331 - 4294967282): size: 6003664
+size 30000000
+diff 0
+stddev: 2722.99
+Generating partitions for 30000000 documents, 5 threads, budget = 127
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858992893): size: 5996520
+ - [858992894 - 1717987795): size: 6002619
+ - [1717987796 - 2576981183): size: 5997950
+ - [2576981184 - 3435973369): size: 5999247
+ - [3435973370 - 4294967282): size: 6003664
+size 30000000
+diff 0
+stddev: 2726.31
+Generating partitions for 30000000 documents, 5 threads, budget = 255
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858991794): size: 5996516
+ - [858991795 - 1717987729): size: 6002623
+ - [1717987730 - 2576980337): size: 5997945
+ - [2576980338 - 3435972129): size: 5999244
+ - [3435972130 - 4294967282): size: 6003672
+size 30000000
+diff 0
+stddev: 2731.17
+Generating partitions for 30000000 documents, 5 threads, budget = 511
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858991841): size: 5996516
+ - [858991842 - 1717986369): size: 6002616
+ - [1717986370 - 2576979336): size: 5997947
+ - [2576979337 - 3435971783): size: 5999245
+ - [3435971784 - 4294967282): size: 6003676
+size 30000000
+diff 0
+stddev: 2730.55
+Generating partitions for 30000000 documents, 5 threads, budget = 1023
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858992393): size: 5996517
+ - [858992394 - 1717985899): size: 6002613
+ - [1717985900 - 2576978930): size: 5997946
+ - [2576978931 - 3435968654): size: 5999221
+ - [3435968655 - 4294967282): size: 6003703
+size 30000000
+diff 0
+stddev: 2738.5
+Generating partitions for 30000000 documents, 5 threads, budget = 2047
+Results for approach 1:
+result (5 partition(s)):
+ - [121 - 858995648): size: 5996534
+ - [858995649 - 1717986130): size: 6002596
+ - [1717986131 - 2576979472): size: 5997951
+ - [2576979473 - 3435967037): size: 5999205
+ - [3435967038 - 4294967282): size: 6003714
+size 30000000
+diff 0
+stddev: 2734.1
+step 8.58993e+08 858993432Results for approach 2:
+result (5 partition(s)):
+ - [121 - 858993432): size: 5996523
+ - [858993432 - 1717986864): size: 6002611
+ - [1717986864 - 2576980297): size: 5997950
+ - [2576980297 - 3435973729): size: 5999253
+ - [3435973729 - 4294967282): size: 6003663
+size 30000000
+diff 0
+stddev: 2723.41
+
