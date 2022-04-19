@@ -141,6 +141,62 @@ public:
     std::cout << "stddev: " << stddev(counts) << std::endl;
   }
 
+  std::vector<std::pair<uint64_t, uint64_t>>
+  partitionDocIdsForThreads(size_t nThreads) {
+    std::cout << "Generating partitions for " << _docIds.size()
+              << " documents, " << nThreads << " threads, "
+              << "budget = " << _budget << '\n';
+    if (_docIds.empty()) {
+      return {{}};
+    }
+    assert(nThreads >= 1);
+    assert(nThreads <= 16);
+    while (nThreads > _docIds.size()) {
+      nThreads--;
+    }
+
+    if (nThreads == 1) {
+      return {{*(_docIds.begin()), *(_docIds.rbegin())}};
+    } else if (_budget == 0) {
+      return partitionDocIdsNaive(nThreads);
+    }
+
+    detectGapsIncrementally(*(_docIds.begin()), *(_docIds.rbegin()));
+    computePotentiallyContinuousSegments();
+
+    mapDownscale();
+
+    divideDownscaled(nThreads);
+    upscale();
+    return _partitions;
+  }
+
+  std::vector<std::pair<uint64_t, uint64_t>>
+  partitionDocIdsNaive(size_t nThreads) {
+    assert(nThreads >= 1);
+    assert(nThreads <= 16);
+
+    std::vector<std::pair<uint64_t, uint64_t>> result;
+
+    if (_docIds.empty()) {
+      result.push_back({0, 0});
+    } else {
+      uint64_t first = *_docIds.begin();
+      uint64_t last = *_docIds.rbegin();
+      double step = static_cast<double>(last - first + 1) / nThreads;
+      for (size_t i = 0; i < nThreads; ++i) {
+        last = std::max<uint64_t>(first + 1, std::ceil(i + 1) * step);
+        if ((i == nThreads - 1) && (last != *_docIds.rbegin())) {
+          last = *_docIds.rbegin();
+        }
+        result.push_back({first, last});
+        first = last;
+      }
+    }
+    return result;
+  }
+
+private:
   void detectGapsIncrementally(uint64_t min, uint64_t max) {
     std::deque<std::pair<uint64_t, uint64_t>> ranges{{min, max}};
     size_t currBudget = _budget;
@@ -238,59 +294,6 @@ public:
     }
   }
 
-  std::vector<std::pair<uint64_t, uint64_t>>
-  partitionDocIdsForThreads(size_t nThreads) {
-    std::cout << "Generating partitions for " << _docIds.size()
-              << " documents, " << nThreads << " threads, "
-              << "budget = " << _budget << '\n';
-    if (_docIds.empty()) {
-      return {{}};
-    }
-    assert(nThreads >= 1);
-    assert(nThreads <= 16);
-
-    if (nThreads == 1) {
-      return {{*(_docIds.begin()), *(_docIds.rbegin())}};
-    } else if (_budget == 0) {
-      return partitionDocIdsNaive(nThreads);
-    }
-
-    detectGapsIncrementally(*(_docIds.begin()), *(_docIds.rbegin()));
-    computePotentiallyContinuousSegments();
-
-    mapDownscale();
-
-    divideDownscaled(nThreads);
-    upscale();
-    return _partitions;
-  }
-
-  std::vector<std::pair<uint64_t, uint64_t>>
-  partitionDocIdsNaive(size_t nThreads) {
-    assert(nThreads >= 1);
-    assert(nThreads <= 16);
-
-    std::vector<std::pair<uint64_t, uint64_t>> result;
-
-    if (_docIds.empty()) {
-      result.push_back({0, 0});
-    } else {
-      uint64_t first = *_docIds.begin();
-      uint64_t last = *_docIds.rbegin();
-      double step = static_cast<double>(last - first + 1) / nThreads;
-      for (size_t i = 0; i < nThreads; ++i) {
-        last = std::max<uint64_t>(first + 1, std::ceil(i + 1) * step);
-        if ((i == nThreads - 1) && (last != *_docIds.rbegin())) {
-          last = *_docIds.rbegin();
-        }
-        result.push_back({first, last});
-        first = last;
-      }
-    }
-    return result;
-  }
-
-private:
   size_t const _budget;
   std::set<uint64_t> _docIds;
   std::vector<std::pair<uint64_t, uint64_t>> _gaps;
@@ -306,9 +309,9 @@ private:
 int main() {
   std::cout << "Partition generator for thread load balancing " << std::endl;
   RandContext randContext;
-  uint64_t numDocs = 3000000;
+  uint64_t numDocs = 2;
+  // std::set<uint64_t> docs = randContext.generateDocIdsPowerOf5(numDocs);
   std::set<uint64_t> docs = randContext.generateRandSet(numDocs);
-  // std::set<uint64_t> docs = randContext.generateDocIdsFromInputFile();
   for (uint8_t i = 5; i < 15; ++i) {
     PartitionGenerator partitionGen(std::pow(2, i) - 1, docs);
     std::vector<std::pair<uint64_t, uint64_t>> partitions =
