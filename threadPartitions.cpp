@@ -40,20 +40,23 @@ struct RandContext {
     return num;
   }
 
-  std::set<uint64_t> generateDocumentIds(uint64_t numItems) {
+  std::set<uint64_t> generateDocIdsPowerOf5(uint64_t numItems) {
     std::set<uint64_t> randSet;
 
     for (uint64_t i = 0; i < numItems; ++i) {
       randSet.insert(std::pow(i, 5));
     }
+    return randSet;
+  }
 
-    /*
+  std::set<uint64_t> generateDocIdsFromInputFile() {
+    std::set<uint64_t> randSet;
+
     std::string str;
     std::ifstream file("/home/cpjulia/Downloads/1000000.txt");
     while (std::getline(file, str, ',')) {
       randSet.insert(stoull(str));
     }
-     */
     return randSet;
   }
 
@@ -61,7 +64,6 @@ struct RandContext {
     std::set<uint64_t> randSet;
     while (randSet.size() != numItems) {
       randSet.insert(generateRandNumWithinRange(
-          //      0, 100));
           0, (std::numeric_limits<uint64_t>::max() - 1)));
       if (randSet.size() % 100000 == 0) {
         std::cout << randSet.size() << " \n";
@@ -69,6 +71,7 @@ struct RandContext {
     }
     return randSet;
   }
+
   std::random_device dev;
   std::mt19937_64 mt;
 };
@@ -84,7 +87,7 @@ class PartitionGenerator {
 public:
   using interval = std::pair<uint64_t, uint64_t>;
 
-  PartitionGenerator(uint64_t budget, std::set<uint64_t> docIds)
+  PartitionGenerator(size_t budget, std::set<uint64_t> docIds)
       : _budget{budget}, _docIds{std::move(docIds)} {}
 
   std::set<uint64_t> const &getDocIds() { return _docIds; }
@@ -109,24 +112,18 @@ public:
 
     for (auto const &p : partitions) {
       auto &counter = counts.emplace_back(0);
-
       auto it = _docIds.lower_bound(p.first);
-      //      std::cout << "p.first " << p.first << " p.second " << p.second <<
-      //      " _docIds.lower_bound " << *it << '\n';
       while (it != _docIds.end() && (*it) <= p.second) {
-        //        std::cout << "value is within boundaries " << *it << '\n';
         ++counter;
         ++it;
       }
     }
-
     return counts;
   }
 
   void
   getStatistics(std::vector<std::pair<uint64_t, uint64_t>> const &partitions) {
     auto counts = getCounts(partitions);
-
     std::cout << "result (" << partitions.size()
               << " partition(s)):" << std::endl;
     size_t j = 0;
@@ -134,7 +131,7 @@ public:
     for (auto const &p : partitions) {
       docsInPartitions += counts[j];
       std::cout << " - [" << p.first << " - " << p.second
-                << "): size: " << counts[j++] << std::endl;
+                << "]: size: " << counts[j++] << std::endl;
     }
     std::cout << "size " << _docIds.size() << '\n';
     std::cout << "diff " << _docIds.size() - docsInPartitions << '\n';
@@ -144,21 +141,16 @@ public:
 
   void detectGapsIncrementally(uint64_t min, uint64_t max) {
     std::deque<std::pair<uint64_t, uint64_t>> ranges{{min, max}};
-    uint64_t currBudget = _budget;
+    size_t currBudget = _budget;
     while (currBudget > 0 && !ranges.empty()) {
       currBudget--;
       auto currRange = ranges.front();
       ranges.pop_front();
-      uint64_t middleNum = (currRange.first + currRange.second) / 2;
-      //  std::cout << "middle number " << middleNum << '\n';
+      uint64_t middleNum = currRange.first / 2 + currRange.second / 2;
       auto middleRangeIt = _docIds.equal_range(middleNum);
-      //   std::cout << *(middleRangeIt.first) << " " << *(middleRangeIt.second)
-      //   << '\n';
       if (*(middleRangeIt.first) == *(middleRangeIt.second)) {
         middleRangeIt.first = std::prev(middleRangeIt.first);
       }
-      //   std::cout << *(middleRangeIt.first) << " " << *(middleRangeIt.second)
-      //   << '\n';
       _gaps.emplace_back(*(middleRangeIt.first), *(middleRangeIt.second));
       if (*middleRangeIt.first - currRange.first > 1) {
         ranges.emplace_back(currRange.first, *middleRangeIt.first);
@@ -166,8 +158,6 @@ public:
       if (currRange.second - *middleRangeIt.second > 1) {
         ranges.emplace_back(*middleRangeIt.second, currRange.second);
       }
-      //   std::cout << "current range " << ranges.back().first << " "
-      //             << ranges.back().second << '\n';
     }
   }
 
@@ -183,8 +173,6 @@ public:
       _potentiallyContinuousSegments.emplace_back(_gaps[i].second,
                                                   _gaps[i + 1].first);
     }
-    //   std::cout << "_docIds begin " << *(_docIds.begin()) << " end " <<
-    //   *(_docIds.rbegin()) << " " << _gaps.back().second << '\n';
     _potentiallyContinuousSegments.emplace_back(_gaps.back().second,
                                                 *(_docIds.rbegin()));
   }
@@ -195,9 +183,6 @@ public:
       uint64_t lMapped = lastValidNum;
       uint64_t uMapped = lMapped + u - l;
       lastValidNum = uMapped + 1;
-      //    std::cout << l << " " << u << " maps to " << lMapped << " " <<
-      //    uMapped
-      //              << '\n';
       _originalToDownscaled.insert({{l, u}, {lMapped, uMapped}});
       _downscaledToOriginal.insert({{lMapped, uMapped}, {l, u}});
     }
@@ -209,29 +194,15 @@ public:
                         _potentiallyContinuousSegments.end(), uint64_t{},
                         [](uint64_t acc, auto pair1) {
                           uint64_t subtraction = pair1.second - pair1.first;
-                          //     std::cout << acc << " " << subtraction + 1 <<
-                          //     '\n';
                           return acc + subtraction + 1;
                         });
-    //   std::cout << "SIZE " << continuousSegmentsSize << '\n';
-    uint64_t const rangeSize =
-        //   (continuousSegmentsSize + _potentiallyContinuousSegments[0].first)
-        //   /
-        continuousSegmentsSize / nThreads;
-    //  std::cout << "range size " << rangeSize << '\n';
+    uint64_t const rangeSize = continuousSegmentsSize / nThreads;
     uint64_t lastUpper = _potentiallyContinuousSegments[0].first;
     for (uint64_t i = 0; i < nThreads; ++i) {
       uint64_t lower = lastUpper;
       uint64_t upper = lower + rangeSize - 1;
-      //   std:: cout << "lower " << lower << '\n' << " upper " << upper <<
-      //   '\n';
-
-      //      std::cout << "thread " << i << " range " << lower << " " << upper
-      //      <<
-      //      '\n';
       _downscaledPartitions.emplace_back(lower, upper);
       lastUpper = lastUpper + rangeSize;
-      //        std::cout << "lastUpper " << lastUpper << '\n';
     }
     _downscaledPartitions.back().second =
         _originalToDownscaled.rbegin()->second.second;
@@ -242,30 +213,25 @@ public:
     auto it =
         std::find_if(_downscaledToOriginal.begin(), _downscaledToOriginal.end(),
                      [&num](auto p) {
-                       //             std::cout << num << " p " << p.first.first
-                       //             << " "
-                       //                       << p.first.second << '\n';
                        return num >= p.first.first && num <= p.first.second;
                      });
     if (it == _downscaledToOriginal.end()) {
-      std::cout << "NAO DEU \n";
+      std::cout << "Could not find range that contains specific doc id " << num
+                << std::endl;
       exit(0);
     }
     return *it;
   }
 
   uint64_t downscaledToOriginal(uint64_t num) {
-    //   std::cout << "num " << num << '\n';
     auto [downscaled, original] = findRangeThatContains(num);
     return (num - downscaled.first + original.first);
   }
 
   void upscale() {
     for (auto const &[l, u] : _downscaledPartitions) {
-      //   std::cout << "l " << l << ", u " << u << '\n';
       auto lOriginalPos = downscaledToOriginal(l);
       auto uOriginalPos = downscaledToOriginal(u);
-
       _partitions.emplace_back(lOriginalPos, uOriginalPos);
     }
   }
@@ -275,34 +241,22 @@ public:
     std::cout << "Generating partitions for " << _docIds.size()
               << " documents, " << nThreads << " threads, "
               << "budget = " << _budget << '\n';
-    assert(_budget > 0);
+    if (_docIds.empty()) {
+      return {{}};
+    }
     assert(nThreads >= 1);
     assert(nThreads <= 16);
+
+    if (nThreads == 1) {
+      return {{*(_docIds.begin()), *(_docIds.rbegin())}};
+    } else if (_budget == 0) {
+      return partitionDocIdsNaive(nThreads);
+    }
 
     detectGapsIncrementally(*(_docIds.begin()), *(_docIds.rbegin()));
     computePotentiallyContinuousSegments();
 
-    /*
-    std::cout << "GAPS \n";
-    for (const auto &[k, v] : _gaps) {
-      std::cout << k << ": " << v << '\n';
-    }
-    std::cout << "---------------------------\n";
-    std::cout << "SEGMENTS \n";
-    for (const auto &[k, v] : _potentiallyContinuousSegments) {
-      std::cout << k << ": " << v << '\n';
-    }
-     */
-
     mapDownscale();
-
-    /*
-    std::cout << "MAP \n";
-    for (auto const &[k, v] : _originalToDownscaled) {
-      std::cout << k.first << " " << k.second << ", " << v.first << " "
-                << v.second << '\n';
-    }
-    */
 
     divideDownscaled(nThreads);
     upscale();
@@ -310,19 +264,18 @@ public:
   }
 
   std::vector<std::pair<uint64_t, uint64_t>>
-  partitionsDocIdsNaive(size_t nThreads) {
+  partitionDocIdsNaive(size_t nThreads) {
     assert(nThreads >= 1);
     assert(nThreads <= 16);
 
     std::vector<std::pair<uint64_t, uint64_t>> result;
 
     if (_docIds.empty()) {
-      result.push_back({0, 1});
+      result.push_back({0, 0});
     } else {
       uint64_t first = *_docIds.begin();
       uint64_t last = *_docIds.rbegin();
       double step = static_cast<double>(last - first + 1) / nThreads;
-      std::cout << "step " << step << " " << static_cast<uint64_t>(step);
       for (size_t i = 0; i < nThreads; ++i) {
         last = std::max<uint64_t>(first + 1, std::ceil(i + 1) * step);
         if ((i == nThreads - 1) && (last != *_docIds.rbegin())) {
@@ -332,12 +285,11 @@ public:
         first = last;
       }
     }
-
     return result;
   }
 
 private:
-  uint64_t const _budget;
+  size_t const _budget;
   std::set<uint64_t> _docIds;
   std::vector<std::pair<uint64_t, uint64_t>> _gaps;
   std::vector<std::pair<uint64_t, uint64_t>> _potentiallyContinuousSegments;
@@ -350,23 +302,26 @@ private:
 };
 
 int main() {
+  std::cout << "Partition generator for thread load balancing. Restriction: "
+               "budget < [num of doc ids]/2"
+            << std::endl;
   RandContext randContext;
   uint64_t numDocs = 300;
-  //std::set<uint64_t> docs = randContext.generateRandSet(numDocs);
-  std::set<uint64_t> docs = randContext.generateDocumentIds(numDocs);
-  for (uint8_t i = 1; i < 12; ++i) {
-    //   PartitionGenerator partitionGen(5*i, ::setDefaultSet());
+  std::set<uint64_t> docs = randContext.generateRandSet(numDocs);
+  // std::set<uint64_t> docs = randContext.generateDocIdsFromInputFile();
+  for (uint8_t i = 5; i < 12; ++i) {
     PartitionGenerator partitionGen(std::pow(2, i) - 1, docs);
     std::vector<std::pair<uint64_t, uint64_t>> partitions =
-        //    partitionGen.partitionDocIdsForThreads(randContext.generateRandNumWithinRange(3));
         partitionGen.partitionDocIdsForThreads(5);
-    std::cout << "Results for approach 1:" << std::endl;
+    std::cout << "-------------------------------------------------\n";
+    std::cout << "Results for the gap finder approach:" << std::endl;
     partitionGen.getStatistics(partitions);
   }
-  PartitionGenerator partitionGen(1, docs);
+  PartitionGenerator partitionGen(0, docs);
   std::vector<std::pair<uint64_t, uint64_t>> partitionsNaive =
-      partitionGen.partitionsDocIdsNaive(5);
-  std::cout << "Results for approach 2:" << std::endl;
+      partitionGen.partitionDocIdsNaive(5);
+  std::cout << "-------------------------------------------------\n";
+  std::cout << "Results for naive approach:" << std::endl;
   partitionGen.getStatistics(partitionsNaive);
   return 0;
 }
